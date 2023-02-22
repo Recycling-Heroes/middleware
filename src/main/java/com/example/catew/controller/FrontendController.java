@@ -1,33 +1,37 @@
 package com.example.catew.controller;
 
+import com.example.catew.entity.Connection;
 import com.example.catew.entity.Product;
+import com.example.catew.entity.User;
+import com.example.catew.repository.ConnectionRepository;
 import com.example.catew.repository.ProductRepository;
+import com.example.catew.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/frontend")
+@RequestMapping("/api/frontend")
 public class FrontendController {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ConnectionRepository connectionRepository;
 
-    @GetMapping("/all")
-    public String getAllForUser() {
-        return "User";
-    }
-
-    @GetMapping("/test")
-    public String getAllForUser_test() {
-//        return productRepository.findByID("1").toString();
-        return "User";
-    }
-
-    @GetMapping("/test/{id}")
-    public Optional<Product> getAllForUser(@PathVariable("id") String id) {
-        return productRepository.findById(id);
-//        return "User";
+    @GetMapping("/getProducts")
+    public Product[] getProducts(@RequestParam("user_id") Integer id) {
+        System.out.println(id);
+        Connection[] connections =  connectionRepository.findByUserId(id);
+        ArrayList<Product> products = new ArrayList<>();
+        for(int i = 0; i < connections.length; i++) {
+            Optional<Product> product = productRepository.findById(connections[i].getProductId());
+            product.ifPresent(products::add);
+        }
+        return products.toArray(new Product[0]);
     }
 }
