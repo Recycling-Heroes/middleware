@@ -3,7 +3,7 @@ FROM gradle:7.5-jdk17 AS builder
 COPY build.gradle /app/
 COPY src /app/src
 WORKDIR /app
-RUN gradle build --no-daemon
+RUN gradle build
 
 #Run
 FROM openjdk:17-jdk-slim-buster
