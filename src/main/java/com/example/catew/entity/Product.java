@@ -12,6 +12,9 @@ import javax.persistence.Table;
 @Table(name = "product")
 @Getter
 @Setter
+/**
+ * Product entity, the java Object representation of the product table in the database
+ */
 public class Product {
     @Id
     private String id;

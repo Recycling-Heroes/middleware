@@ -13,6 +13,9 @@ import java.util.Date;
 @Table(name = "connection")
 @Getter
 @Setter
+/**
+ * Connection entity, the java Object representation of the connection table in the database
+ */
 public class Connection {
     @Id
     private Integer id;
